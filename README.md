@@ -2,7 +2,14 @@
 
 A simple, standalone Bash script to add custom locations with arbitrary coordinates to **GNOME Weather** (`org.gnome.Weather`) via `gsettings`.
 
-Works with **GNOME 40+ / libgweather-4**.
+Works with both **native packages** and **Flatpak** installations on **GNOME 40+ / libgweather-4**.
+
+## ✨ Features
+
+* Automatically detects **Flatpak** vs. **native package** installations
+* Converts decimal degrees to radians with proper leading-zero formatting
+* Formats and injects the exact `libgweather-4` GVariant data structure
+* Gracefully restarts GNOME Weather to apply changes immediately
 
 ## 📌 Prerequisites
 
@@ -17,7 +24,7 @@ The script requires `bc` for floating-point calculations:
 Clone the repository and make the script executable:
 
 ```bash
-git clone https://github.com/crian/gweather-add-loc.git
+git clone [https://github.com/crian/gweather-add-loc.git](https://github.com/crian/gweather-add-loc.git)
 cd gweather-add-loc
 chmod +x gweather-add-loc.sh
 ```
@@ -28,7 +35,7 @@ chmod +x gweather-add-loc.sh
 ./gweather-add-loc.sh "Location Name" LATITUDE LONGITUDE
 ```
 
-### 💡 Examples
+### 💡 Example
 
 Add Berlin:
 ```bash
@@ -36,7 +43,3 @@ Add Berlin:
 ```
 
 The script automatically converts the coordinates to radians, formats the `libgweather-4` GVariant string, updates `gsettings`, and restarts `gnome-weather` to apply the changes.
-
-## 📄 License
-
-[MIT](LICENSE)
