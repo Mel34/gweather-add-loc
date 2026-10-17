@@ -1,0 +1,79 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build (Linux x86_64)
+    runs-on: ubuntu-24.04
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libgtk-4-dev libadwaita-1-dev pkg-config desktop-file-utils
+
+      - uses: Swatinem/rust-cache@v2
+
+      - name: Validate desktop file
+        run: desktop-file-validate data/io.github.crian.GWeatherAddLoc.desktop
+
+      - name: Build (release)
+        run: cargo build --release --locked
+
+      - name: Package
+        run: |
+          set -euo pipefail
+          VERSION=$(sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1)
+          NAME="gweather-add-loc-$VERSION-x86_64-linux"
+          mkdir -p "dist/$NAME"
+          cp target/release/gweather-add-loc "dist/$NAME/"
+          cp -r data Makefile "dist/$NAME/"
+          cat > "dist/$NAME/INSTALL.txt" <<'TXT'
+          Weather Locations - prebuilt binary (Linux x86_64)
+
+          Requirements: GTK 4 and libadwaita >= 1.4, glibc >= 2.39.
+
+          Run directly:
+              ./gweather-add-loc
+
+          Install for the current user (binary, menu entry, icons):
+              make install-files BINPATH=./gweather-add-loc
+          Use PREFIX=/usr/local (with sudo) for a system-wide install.
+          TXT
+          tar czf "dist/$NAME.tar.gz" -C dist "$NAME"
+          cp target/release/gweather-add-loc dist/gweather-add-loc-x86_64-linux
+          rm -rf "dist/$NAME"
+          ls -la dist
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: gweather-add-loc-linux-x86_64
+          path: dist/*
+
+  release:
+    name: Attach to GitHub release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: gweather-add-loc-linux-x86_64
+          path: dist
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
