@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>io.github.crian.GWeatherAddLoc</id>
+  <name>Weather Locations</name>
+  <summary>Add custom locations to GNOME Weather</summary>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>MIT</project_license>
+  <description>
+    <p>Add locations with arbitrary coordinates to GNOME Weather and remove existing ones. Works with native and Flatpak installations of GNOME Weather.</p>
+  </description>
+  <launchable type="desktop-id">io.github.crian.GWeatherAddLoc.desktop</launchable>
+  <url type="homepage">https://github.com/crian/gweather-add-loc</url>
+  <content_rating type="oars-1.1"/>
+  <requires>
+    <display_length compare="ge">360</display_length>
+  </requires>
+  <releases>
+    <release version="0.1.0" date="2026-10-16"/>
+  </releases>
+</component>

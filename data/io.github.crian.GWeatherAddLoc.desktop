@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Name=Weather Locations
+Comment=Add custom locations to GNOME Weather
+Exec=gweather-add-loc
+Icon=io.github.crian.GWeatherAddLoc
+Terminal=false
+StartupNotify=true
+Categories=GNOME;GTK;Utility;
+Keywords=weather;location;coordinates;gweather;
