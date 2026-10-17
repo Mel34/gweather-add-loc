@@ -4,6 +4,8 @@ Add custom locations with arbitrary coordinates to **GNOME Weather** (`org.gnome
 
 Works with both **native packages** and **Flatpak** installations on **GNOME 40+ / libgweather-4**.
 
+![Weather Locations next to GNOME Weather](docs/screenshot.png)
+
 Two tools are included:
 
 | Tool | What it is |
