@@ -52,6 +52,7 @@ Build dependencies: a Rust toolchain (`cargo`) and the GTK 4 / libadwaita develo
 
 * **Debian/Ubuntu:** `sudo apt install cargo libgtk-4-dev libadwaita-1-dev`
 * **Fedora:** `sudo dnf install cargo gtk4-devel libadwaita-devel`
+* **Arch Linux:** `sudo pacman -S rust gtk4 libadwaita`
 
 ```bash
 git clone https://github.com/crian/gweather-add-loc.git
@@ -61,6 +62,18 @@ make install
 ```
 
 Make sure `~/.local/bin` is in your `PATH`. The app then appears in the application menu as **Weather Locations**, or run `gweather-add-loc`. Remove it again with `make uninstall`.
+
+### Arch Linux
+
+A `PKGBUILD` contributed by [@Mel34](https://github.com/Mel34) is available in [`contrib/arch/`](contrib/arch/PKGBUILD). It builds the GTK app from source and also installs the Bash script as `gweather-add-loc.sh`:
+
+```bash
+git clone https://github.com/crian/gweather-add-loc.git
+cd gweather-add-loc/contrib/arch
+makepkg -si
+```
+
+The `PKGBUILD` is community-maintained and not tested by the repository owner. Please open an issue or a pull request if something breaks.
 
 ## 📜 Bash script
 
