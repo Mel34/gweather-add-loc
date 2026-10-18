@@ -25,6 +25,7 @@ Two tools are included:
 The GTK app additionally lets you:
 
 * See all saved locations and **remove** them
+* New locations are added at the top of the list and become the current location
 * Enter coordinates with `.` or `,` as decimal separator
 * Choose whether GNOME Weather should be restarted after a change
 
@@ -63,14 +64,6 @@ Make sure `~/.local/bin` is in your `PATH`. The app then appears in the applicat
 
 ## 📜 Bash script
 
-### 📌 Prerequisites
-
-The script requires `bc` for floating-point calculations:
-
-* **Fedora:** `sudo dnf install bc`
-* **Debian/Ubuntu:** `sudo apt install bc`
-* **Arch Linux:** `sudo pacman -S bc`
-
 ### 🚀 Installation
 
 Clone the repository:
@@ -83,8 +76,12 @@ cd gweather-add-loc
 ### ⚙️ Usage
 
 ```bash
-./gweather-add-loc.sh "Location Name" LATITUDE LONGITUDE
+./gweather-add-loc.sh [--no-restart] "Location Name" LATITUDE LONGITUDE
 ```
+
+Latitude comes first. `.` and `,` both work as decimal separator.
+
+By default the new location is put at the **top** of the list, so GNOME Weather uses it as the current location. Use `--no-restart` to skip restarting GNOME Weather.
 
 #### 💡 Example
 
@@ -93,7 +90,7 @@ Add Berlin:
 ./gweather-add-loc.sh "Berlin" 52.5200 13.4050
 ```
 
-The script automatically converts the coordinates to radians, formats the `libgweather-4` GVariant string, updates `gsettings`, and restarts `gnome-weather` to apply the changes.
+The script validates the input, automatically converts the coordinates to radians, formats the `libgweather-4` GVariant string, updates `gsettings`, and restarts `gnome-weather` to apply the changes.
 
 ## 📄 License
 
