@@ -25,6 +25,7 @@ Two tools are included:
 The GTK app additionally lets you:
 
 * See all saved locations and **remove** them
+* New locations are added at the top of the list and become the current location
 * Enter coordinates with `.` or `,` as decimal separator
 * Choose whether GNOME Weather should be restarted after a change
 
@@ -51,6 +52,7 @@ Build dependencies: a Rust toolchain (`cargo`) and the GTK 4 / libadwaita develo
 
 * **Debian/Ubuntu:** `sudo apt install cargo libgtk-4-dev libadwaita-1-dev`
 * **Fedora:** `sudo dnf install cargo gtk4-devel libadwaita-devel`
+* **Arch Linux:** `sudo pacman -S rust gtk4 libadwaita`
 
 ```bash
 git clone https://github.com/crian/gweather-add-loc.git
@@ -61,15 +63,19 @@ make install
 
 Make sure `~/.local/bin` is in your `PATH`. The app then appears in the application menu as **Weather Locations**, or run `gweather-add-loc`. Remove it again with `make uninstall`.
 
+### Arch Linux
+
+A `PKGBUILD` contributed by [@Mel34](https://github.com/Mel34) is available in [`contrib/arch/`](contrib/arch/PKGBUILD). It builds the GTK app from source and also installs the Bash script as `gweather-add-loc.sh`:
+
+```bash
+git clone https://github.com/crian/gweather-add-loc.git
+cd gweather-add-loc/contrib/arch
+makepkg -si
+```
+
+The `PKGBUILD` is community-maintained and not tested by the repository owner. Please open an issue or a pull request if something breaks.
+
 ## 📜 Bash script
-
-### 📌 Prerequisites
-
-The script requires `bc` for floating-point calculations:
-
-* **Fedora:** `sudo dnf install bc`
-* **Debian/Ubuntu:** `sudo apt install bc`
-* **Arch Linux:** `sudo pacman -S bc`
 
 ### 🚀 Installation
 
@@ -83,8 +89,12 @@ cd gweather-add-loc
 ### ⚙️ Usage
 
 ```bash
-./gweather-add-loc.sh "Location Name" LATITUDE LONGITUDE
+./gweather-add-loc.sh [--no-restart] "Location Name" LATITUDE LONGITUDE
 ```
+
+Latitude comes first. `.` and `,` both work as decimal separator.
+
+By default the new location is put at the **top** of the list, so GNOME Weather uses it as the current location. Use `--no-restart` to skip restarting GNOME Weather.
 
 #### 💡 Example
 
@@ -93,7 +103,7 @@ Add Berlin:
 ./gweather-add-loc.sh "Berlin" 52.5200 13.4050
 ```
 
-The script automatically converts the coordinates to radians, formats the `libgweather-4` GVariant string, updates `gsettings`, and restarts `gnome-weather` to apply the changes.
+The script validates the input, automatically converts the coordinates to radians, formats the `libgweather-4` GVariant string, updates `gsettings`, and restarts `gnome-weather` to apply the changes.
 
 ## 📄 License
 
